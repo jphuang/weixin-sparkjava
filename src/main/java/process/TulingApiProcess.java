@@ -18,7 +18,7 @@ import entity.ReceiveXmlEntity;
 
 public class TulingApiProcess {
 	/** 
-     * µ÷ÓÃÍ¼Áé»úÆ÷ÈËapi½Ó¿Ú£¬»ñÈ¡ÖÇÄÜ»Ø¸´ÄÚÈİ£¬½âÎö»ñÈ¡×Ô¼ºËùĞè½á¹û 
+     * è°ƒç”¨å›¾çµæœºå™¨äººapiæ¥å£ï¼Œè·å–æ™ºèƒ½å›å¤å†…å®¹ï¼Œè§£æè·å–è‡ªå·±æ‰€éœ€ç»“æœ 
      * @param content 
      * @return 
      */  
@@ -31,14 +31,14 @@ public class TulingApiProcess {
 
 	private String handleResult(String content, String fromUserName,
 			String toUserName, String result) {
-		/** ÇëÇóÊ§°Ü´¦Àí */  
+		/** è¯·æ±‚å¤±è´¥å¤„ç† */  
         if(null==result){  
-            return "¶Ô²»Æğ£¬ÄãËµµÄ»°ÕæÊÇÌ«¸ßÉîÁË¡­¡­";  
+            return "å¯¹ä¸èµ·ï¼Œä½ è¯´çš„è¯çœŸæ˜¯å¤ªé«˜æ·±äº†â€¦â€¦";  
         }  
           
         try {  
             JSONObject json = JSONObject.fromObject(result);
-            //ÒÔcode=100000 ,Î»×ÓĞÅÏ¢£¬²Î¿¼Í¼Áé»úÆ÷ÈËapiÎÄµµ  
+            //ä»¥code=100000 ,ä½å­ä¿¡æ¯ï¼Œå‚è€ƒå›¾çµæœºå™¨äººapiæ–‡æ¡£  
             if(100000==json.getInt("code")){  
                 result = json.getString("text");  
                 result = new FormatXmlProcess().formatXmlText(fromUserName, toUserName, result);
@@ -71,16 +71,16 @@ public class TulingApiProcess {
 	}
 
 	private String getResultForTuling(String content, String userName ) {
-		/** ´Ë´¦ÎªÍ¼Áéapi½Ó¿Ú£¬²ÎÊıkeyĞèÒª×Ô¼ºÈ¥×¢²áÉêÇë */  
-        String apiUrl = "http://182.92.68.93/openapi/api?key=9ae553bf1d1d99a849ba14c724cf0e44&userid="+userName+"&info=";  
+		/** æ­¤å¤„ä¸ºå›¾çµapiæ¥å£ï¼Œå‚æ•°keyéœ€è¦è‡ªå·±å»æ³¨å†Œç”³è¯· */  
+        String apiUrl = "http://182.92.68.93/openapi/api?key=xxx&userid="+userName+"&info=";  
         String param = "";  
         try {  
             param = apiUrl+URLEncoder.encode(content,"utf-8");  
         } catch (UnsupportedEncodingException e1) {  
             e1.printStackTrace();  
-        } //½«²ÎÊı×ªÎªurl±àÂë  
+        } //å°†å‚æ•°è½¬ä¸ºurlç¼–ç   
           
-        /** ·¢ËÍhttpgetÇëÇó */  
+        /** å‘é€httpgetè¯·æ±‚ */  
         HttpGet request = new HttpGet(param);  
         String result = null;  
         try {  
@@ -98,7 +98,7 @@ public class TulingApiProcess {
 	
 	public static void main(String[] args) {
 		TulingApiProcess tl = new TulingApiProcess();
-		String result = tl.getResultForTuling("ºìÉÕÈâÔõÃ´×ö", "½­Æ½"); 
-		System.out.println(tl.handleResult("ºìÉÕÈâÔõÃ´×ö", "", "", result));
+		String result = tl.getResultForTuling("çº¢çƒ§è‚‰æ€ä¹ˆåš", "æ±Ÿå¹³"); 
+		System.out.println(tl.handleResult("çº¢çƒ§è‚‰æ€ä¹ˆåš", "", "", result));
 	}
 }
