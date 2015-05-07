@@ -1,6 +1,5 @@
 package process;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -8,13 +7,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
-import entity.ReceiveXmlEntity;
+import util.HttpUtil;
 
 public class TulingApiProcess {
 	/** 
@@ -22,9 +15,7 @@ public class TulingApiProcess {
      * @param content 
      * @return 
      */  
-    public String getTulingResult(String content,ReceiveXmlEntity xmlEntity){  
-    	String fromUserName = xmlEntity.getFromUserName();
-    	String toUserName = xmlEntity.getToUserName();
+    public String getTulingResult(String content,String fromUserName,String toUserName){  
         String result = getResultForTuling(content, fromUserName);  
         return handleResult(content, fromUserName, toUserName, result);  
     }
@@ -61,9 +52,6 @@ public class TulingApiProcess {
             	JSONArray list =  json.getJSONArray("list");
             	result = new FormatXmlProcess().formatXmlNew(fromUserName, toUserName, list);
             }
-            
-            
-            
         } catch (JSONException e) {  
             e.printStackTrace();  
         }  
@@ -80,20 +68,7 @@ public class TulingApiProcess {
             e1.printStackTrace();  
         } //将参数转为url编码  
           
-        /** 发送httpget请求 */  
-        HttpGet request = new HttpGet(param);  
-        String result = null;  
-        try {  
-            HttpResponse response = HttpClients.createDefault().execute(request);  
-            if(response.getStatusLine().getStatusCode()==200){  
-                result = EntityUtils.toString(response.getEntity());  
-            }  
-        } catch (ClientProtocolException e) {  
-            e.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        }
-		return result;
+       return HttpUtil.get(param);
 	}  
 	
 	public static void main(String[] args) {
