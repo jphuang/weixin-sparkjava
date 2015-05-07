@@ -14,7 +14,7 @@ public class FormatXmlProcess {
 	 * @param content
 	 * @return
 	 */
-	public String formatXmlText(String to, String from, String content) {
+	public String formatXmlText(String from, String to, String content) {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 		sb.append("<xml><ToUserName><![CDATA[");
@@ -37,7 +37,7 @@ public class FormatXmlProcess {
 	 * @param content
 	 * @return
 	 */
-	public String formatXmlLink(String to, String from, String content,
+	public String formatXmlLink(String from, String to, String content,
 			String description, String url) {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
@@ -61,9 +61,9 @@ public class FormatXmlProcess {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 		sb.append("<xml><ToUserName><![CDATA[");
-		sb.append(fromUserName);
-		sb.append("]]></ToUserName><FromUserName><![CDATA[");
 		sb.append(toUserName);
+		sb.append("]]></ToUserName><FromUserName><![CDATA[");
+		sb.append(fromUserName);
 		sb.append("]]></FromUserName><CreateTime>");
 		sb.append(date.getTime());
 		sb.append("</CreateTime><MsgType><![CDATA[news]]></MsgType><Content><![CDATA[]]></Content><ArticleCount>"
