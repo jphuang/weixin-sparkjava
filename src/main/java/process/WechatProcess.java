@@ -19,16 +19,38 @@ public class WechatProcess {
         	
         	String content = replace(xmlEntity.getContent());
             
-        	if(content.startsWith("“Ù¿÷") || content.startsWith("∏Ë«˙") || content.startsWith("µ„∏Ë") ){
-        		MusicApiProcess  bma = new MusicApiProcess();
-        		content = content.substring(2,content.length());
-        		result = bma.handleResult(content, xmlEntity.getToUserName(), xmlEntity.getFromUserName(), bma.getSongInfo(bma.getSongId(content)));
-        	}else{
-        		result = new TulingApiProcess().getTulingResult(content,xmlEntity);  
-        	}
-        }  
+        	String  fromUserName = xmlEntity.getToUserName();
+        	String toUserName = xmlEntity.getFromUserName();
+        	
+        	result = handle(content, fromUserName, toUserName);
+        }else if ("voice".endsWith(xmlEntity.getMsgType())){ 
+        	
+        	String content = replace(xmlEntity.getRecognition());
+            
+        	String  fromUserName = xmlEntity.getToUserName();
+        	String toUserName = xmlEntity.getFromUserName();
+        	
+        	result = handle(content, fromUserName, toUserName);
+        } 
+        
         return result;  
     }
+
+	public  String handle(String content, String fromUserName, String toUserName) {
+		String result;
+		if(content.startsWith("“Ù¿÷") || content.startsWith("∏Ë«˙") || content.startsWith("µ„∏Ë") ){
+			MusicApiProcess  bma = new MusicApiProcess();
+			content = content.substring(2,content.length());
+			result = bma.handleResult(content, fromUserName, toUserName, bma.getSongInfo(bma.getSongId(content)));
+		}else if(content.indexOf("–¶ª∞")!= -1){
+			result = new JokeProcess().getJoke(toUserName, fromUserName);
+		}else if(content.indexOf("»§Õº")!= -1){
+			result = new OddPhotosProcess().getOddPhotos(toUserName, fromUserName);
+		}else{
+			result = new TulingApiProcess().getTulingResult(content,fromUserName,toUserName);  
+		}
+		return result;
+	}
 
 	private String replace(String content) {
 		for(String key : Brow.me.keySet()){
@@ -38,11 +60,8 @@ public class WechatProcess {
 	}  
 	
 	public static void main(String[] args) {
-		MusicApiProcess  bma = new MusicApiProcess();
-		String content = "µ„∏Ë¡˜¿Àº«".substring(2,"µ„∏Ë¡˜¿Àº«".length());
-		System.out.println(content);
-		System.out.println(bma.handleResult(content, "test", "ziji", bma.getSongInfo(bma.getSongId(content))));
-	
+		WechatProcess wp = new WechatProcess();
+		System.out.println(wp.handle("–¶ª∞", "", ""));
 	}
 	
 }
