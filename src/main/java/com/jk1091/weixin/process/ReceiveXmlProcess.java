@@ -1,4 +1,4 @@
-package process;
+package com.jk1091.weixin.process;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -8,7 +8,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-import entity.ReceiveXmlEntity;
+import com.jk1091.weixin.entity.ReceiveXmlEntity;
 
 public class ReceiveXmlProcess {
     public ReceiveXmlEntity getMsgEntity(String strXml){
@@ -22,7 +22,7 @@ public class ReceiveXmlProcess {
             Iterator<?> iter = root.elementIterator();
               
             msg = new ReceiveXmlEntity();
-            Class<?> c = Class.forName("entity.ReceiveXmlEntity");
+            Class<?> c = Class.forName("com.jk1091.weixin.entity.ReceiveXmlEntity");
             msg = (ReceiveXmlEntity)c.newInstance();
               
             while(iter.hasNext()){  

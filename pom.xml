@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>test</groupId>
+	<groupId>com.jk1091</groupId>
 	<artifactId>spark</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>com.sparkjava</groupId>
@@ -65,7 +65,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>spark.HelloWorld</mainClass>
+							<mainClass>com.jk1091.weixin.main.HelloWorld</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -82,7 +82,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>spark.HelloWorld</mainClass>
+							<mainClass>com.jk1091.weixin.main.HelloWorld</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
