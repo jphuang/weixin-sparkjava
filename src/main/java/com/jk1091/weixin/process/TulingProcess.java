@@ -16,7 +16,7 @@ public class TulingProcess {
 				"<MsgType><![CDATA[text]]></MsgType>"+
 				"<Content>%s</Content>"+
 				"</xml>";
-		String post = HttpUtil.get(api + "?key=3baaeb7f66af4e1cb62fed91a1a732d1" + "&userid" + fromUser + "&info=" + text );
+		String post = HttpUtil.get(api + "?key=3baaeb7f66af4e1cb62fed91a1a732d1" + "&userid" + toUser + "&info=" + text );
 		JSONObject jsonArray = JSONObject.fromObject(post);
 		return String.format(result, toUser,fromUser,new Date().getTime(),jsonArray.get("text"));
 	}
