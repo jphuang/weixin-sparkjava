@@ -14,32 +14,14 @@ public class EncryptUtil {
 	};
 	private static Random rnd = new Random();
 	final static String digitsBase36 = "0123456789abcdefghijklmnopqrstuvwxyz";
-	/**
-	 * 计算字符串的md5的摘要信息
-	 * @param s 源字符串
-	 * @return 32字节的16进制的字符串
-	 */
 	public static String md5(String s) {
 		return md5(s, null );
 	}
 	
-	/**
-	 * 计算字符串的md5的摘要信息
-	 * @param data 源字符串
-	 * @param key salt字符串，
-	 * @return 32字节的16进制的字符串
-	 */
 	public static String md5(String data, String key) {
 		return doHash( data, key, "MD5" );
     }
 	
-	/**
-	 * 计算字符串的摘要信息
-	 * @param data 源字符串
-	 * @param key salt字符串，
-	 * @param digestName 摘要算法名称，可以是MD5，SHA1等
-	 * @return 32字节的16进制的字符串
-	 */
 	public static String doHash( String data, String key, String digestName ) {
 		String ret = "";
 		if( StringUtils.isEmpty(data) ) return ret;
@@ -60,13 +42,6 @@ public class EncryptUtil {
 		return ret;
 	}
 	
-	/**
-	 * byte数组的部分字节转化为16进制的String
-	 * @param byteData 待转换的byte数组
-	 * @param offset 开始位置
-	 * @param len 字节数
-	 * @return 16进制的String
-	 */
 	public static  String toHex(byte byteData[], int offset, int len) {
 		char buf[] = new char[len*2];
 		int k=0;

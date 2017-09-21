@@ -7,8 +7,8 @@ import net.sf.json.JSONObject;
 
 public class FormatXmlProcess {
 	/**
-	 * ·â×°ÎÄ×ÖÀàµÄ·µ»ØÏûÏ¢
-	 * 
+	 * å°è£…æ–‡å­—ç±»çš„è¿”å›æ¶ˆæ¯
+	 *
 	 * @param to
 	 * @param from
 	 * @param content
@@ -30,15 +30,15 @@ public class FormatXmlProcess {
 	}
 
 	/**
-	 * ·â×°Á´½ÓµÄ·µ»ØÏûÏ¢
-	 * 
+	 * å°è£…é“¾æ¥çš„è¿”å›æ¶ˆæ¯
+	 *
 	 * @param to
 	 * @param from
 	 * @param content
 	 * @return
 	 */
 	public String formatXmlLink(String from, String to, String content,
-			String description, String url) {
+								String description, String url) {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 		sb.append("<xml><ToUserName><![CDATA[");
@@ -57,7 +57,7 @@ public class FormatXmlProcess {
 	}
 
 	public String formatXmlCookbook(String fromUserName, String toUserName,
-			JSONArray list) {
+									JSONArray list) {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 		sb.append("<xml><ToUserName><![CDATA[");
@@ -75,7 +75,7 @@ public class FormatXmlProcess {
 			String info = o.getString("info");
 			String detailurl = o.getString("detailurl");
 			String icon = o.getString("icon");
-			
+
 			sb.append("<item><Title><![CDATA[");
 			sb.append(name);
 			sb.append(" ]]></Title><Description><![CDATA[");
@@ -85,7 +85,7 @@ public class FormatXmlProcess {
 			sb.append(" ]]></PicUrl><Url><![CDATA[");
 			sb.append(detailurl);
 			sb.append(" ]]></Url></item>");
-			
+
 			i++ ;
 			if(i>=8){
 				break;
@@ -93,13 +93,13 @@ public class FormatXmlProcess {
 		}
 
 		sb.append("</Articles><FuncFlag>1</FuncFlag></xml>");
-		
-		
+
+
 		return sb.toString();
 	}
 
 	public String formatXmlNew(String fromUserName, String toUserName,
-			JSONArray list) {
+							   JSONArray list) {
 		StringBuffer sb = new StringBuffer();
 		Date date = new Date();
 		sb.append("<xml><ToUserName><![CDATA[");
@@ -117,7 +117,7 @@ public class FormatXmlProcess {
 			String info = o.getString("source");
 			String detailurl = o.getString("detailurl");
 			String icon = o.getString("icon");
-			
+
 			sb.append("<item><Title><![CDATA[");
 			sb.append(name);
 			sb.append(" ]]></Title><Description><![CDATA[");

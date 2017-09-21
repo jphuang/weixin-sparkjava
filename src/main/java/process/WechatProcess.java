@@ -4,50 +4,51 @@ import entity.Brow;
 import entity.ReceiveXmlEntity;
 
 public class WechatProcess {
-	/** 
-     * ½âÎö´¦Àíxml¡¢»ñÈ¡ÖÇÄÜ»Ø¸´½á¹û
-     * @param xml ½ÓÊÕµ½µÄÎ¢ĞÅÊı¾İ 
-     * @return  ×îÖÕµÄ½âÎö½á¹û£¨xml¸ñÊ½Êı¾İ£© 
-     */  
-    public String processWechatMag(String xml){  
-        /** ½âÎöxmlÊı¾İ */  
-        ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(xml);  
-          
-        /** ÒÔÎÄ±¾ÏûÏ¢ÎªÀı£¬µ÷ÓÃÍ¼Áé»úÆ÷ÈËapi½Ó¿Ú£¬»ñÈ¡»Ø¸´ÄÚÈİ */  
-        String result = "";  
-        if("text".endsWith(xmlEntity.getMsgType())){ 
-        	
-        	String content = replace(xmlEntity.getContent());
-            
-        	String  fromUserName = xmlEntity.getToUserName();
-        	String toUserName = xmlEntity.getFromUserName();
-        	
-        	result = handle(content, fromUserName, toUserName);
-        }else if ("voice".endsWith(xmlEntity.getMsgType())){ 
-        	
-        	String content = replace(xmlEntity.getRecognition());
-            
-        	String  fromUserName = xmlEntity.getToUserName();
-        	String toUserName = xmlEntity.getFromUserName();
-        	
-        	result = handle(content, fromUserName, toUserName);
-        } 
-        
-        return result;  
-    }
+	/**
+	 * è§£æå¤„ç†xmlã€è·å–æ™ºèƒ½å›å¤ç»“æœ
+	 * @param xml æ¥æ”¶åˆ°çš„å¾®ä¿¡æ•°æ®
+	 * @return  æœ€ç»ˆçš„è§£æç»“æœï¼ˆxmlæ ¼å¼æ•°æ®ï¼‰
+	 */
+	public String processWechatMag(String xml){
+		/** è§£æxmlæ•°æ® */
+		ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(xml);
+
+		/** ä»¥æ–‡æœ¬æ¶ˆæ¯ä¸ºä¾‹ï¼Œè°ƒç”¨å›¾çµæœºå™¨äººapiæ¥å£ï¼Œè·å–å›å¤å†…å®¹ */
+		String result = "";
+		if("text".endsWith(xmlEntity.getMsgType())){
+
+			String content = replace(xmlEntity.getContent());
+
+			String  fromUserName = xmlEntity.getToUserName();
+			String toUserName = xmlEntity.getFromUserName();
+
+			result = handle(content, fromUserName, toUserName);
+		}else if ("voice".endsWith(xmlEntity.getMsgType())){
+
+			String content = replace(xmlEntity.getRecognition());
+
+			String  fromUserName = xmlEntity.getToUserName();
+			String toUserName = xmlEntity.getFromUserName();
+
+			result = handle(content, fromUserName, toUserName);
+		}
+
+		return result;
+	}
 
 	public  String handle(String content, String fromUserName, String toUserName) {
 		String result;
-		if(content.startsWith("ÒôÀÖ") || content.startsWith("¸èÇú") || content.startsWith("µã¸è") ){
+		if(content.startsWith("éŸ³ä¹") || content.startsWith("æ­Œæ›²") || content.startsWith("ç‚¹æ­Œ") ){
 			MusicApiProcess  bma = new MusicApiProcess();
 			content = content.substring(2,content.length());
 			result = bma.handleResult(content, fromUserName, toUserName, bma.getSongInfo(bma.getSongId(content)));
-		}else if(content.indexOf("Ğ¦»°")!= -1){
+		}else if(content.indexOf("ç¬‘è¯")!= -1){
 			result = new JokeProcess().getJoke(toUserName, fromUserName);
-		}else if(content.indexOf("È¤Í¼")!= -1){
+		}else if(content.indexOf("è¶£å›¾")!= -1){
 			result = new OddPhotosProcess().getOddPhotos(toUserName, fromUserName);
 		}else{
-			result = new TulingApiProcess().getTulingResult(content,fromUserName,toUserName);  
+			//result = new TulingApiProcess().getTulingResult(content,fromUserName,toUserName);
+			result = "å›¾çµä¸è§äº†";
 		}
 		return result;
 	}
@@ -57,11 +58,11 @@ public class WechatProcess {
 			content = content.replace(key, Brow.me.get(key));
 		}
 		return content;
-	}  
-	
+	}
+
 	public static void main(String[] args) {
 		WechatProcess wp = new WechatProcess();
-		System.out.println(wp.handle("Ğ¦»°", "", ""));
+		System.out.println(wp.handle("ç¬‘è¯", "", ""));
 	}
-	
+
 }

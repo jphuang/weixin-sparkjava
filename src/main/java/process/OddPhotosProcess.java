@@ -20,8 +20,9 @@ public class OddPhotosProcess {
 		map.clear();
 		String result = HttpUtil.get(api);
 		if(result != null){
+			System.out.println("结果：" + result);
 			JSONArray jsonArray = JSONArray.fromObject(result); 
-			List<OddPhotos> jobeList = new ArrayList<OddPhotos>();
+			List<OddPhotos> jobeList = new ArrayList<>();
 			for(Object o : jsonArray){
 				JSONObject obj = (JSONObject)o;
 				OddPhotos oddPhotos = new OddPhotos();

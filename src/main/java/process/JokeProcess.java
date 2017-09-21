@@ -21,7 +21,7 @@ public class JokeProcess {
 		String result = HttpUtil.get(api);
 		if(result != null){
 			JSONArray jsonArray = JSONArray.fromObject(result); 
-			List<Joke> jobeList = new ArrayList<Joke>();
+			List<Joke> jobeList = new ArrayList<>();
 			for(Object o : jsonArray){
 				JSONObject obj = (JSONObject)o;
 				Joke joke = new Joke();
