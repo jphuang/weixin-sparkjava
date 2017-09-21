@@ -47,8 +47,7 @@ public class WechatProcess {
 		}else if(content.indexOf("趣图")!= -1){
 			result = new OddPhotosProcess().getOddPhotos(toUserName, fromUserName);
 		}else{
-			//result = new TulingApiProcess().getTulingResult(content,fromUserName,toUserName);
-			result = "图灵不见了";
+			result = new TulingProcess().get(toUserName,fromUserName,content);
 		}
 		return result;
 	}

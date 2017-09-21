@@ -1,5 +1,7 @@
 package com.jk1091.weixin.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Date;
 
 public class Joke {
@@ -33,7 +35,7 @@ public class Joke {
 	}
 
 	public String toString(String toUser,String fromUser) {
-		if(null != poster && !poster.trim().equals("")){
+		if(StringUtils.isNotBlank(poster)){
 			String result = "<xml>" + 
 				"<ToUserName><![CDATA[%s]]></ToUserName>" + 
 				"<FromUserName><![CDATA[%s]]></FromUserName>" + 

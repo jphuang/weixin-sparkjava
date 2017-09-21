@@ -26,7 +26,7 @@ public class JokeProcess {
 				JSONObject obj = (JSONObject)o;
 				Joke joke = new Joke();
 				joke.setTitle(obj.getString("title"));
-				joke.setContent(obj.getString("content"));
+				joke.setContent(obj.getString("content").replaceAll("<br/>",""));
 				joke.setPoster(obj.getString("poster"));
 				joke.setUrl(obj.getString("url"));
 				jobeList.add(joke);
