@@ -2,10 +2,11 @@ package com.jk1091.weixin.process;
 
 import com.jk1091.weixin.util.HttpUtil;
 import net.sf.json.JSONObject;
-
-import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TulingProcess {
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public String  get(String fromUser,String toUser,String text){
 		String api = "http://www.tuling123.com/openapi/api";
@@ -18,7 +19,8 @@ public class TulingProcess {
 				"</xml>";
 		String post = HttpUtil.get(api + "?key=3baaeb7f66af4e1cb62fed91a1a732d1" + "&userid" + toUser + "&info=" + text );
 		JSONObject jsonArray = JSONObject.fromObject(post);
-		return String.format(result, toUser,fromUser,new Date().getTime(),jsonArray.get("text"));
+		logger.info("tuling return {}",jsonArray);
+		return String.format(result, toUser,fromUser,System.currentTimeMillis(),jsonArray.get("text"));
 	}
 
 	public static void main(String[] args) {
