@@ -2,6 +2,7 @@ package com.jk1091.weixin.process;
 
 import com.jk1091.weixin.entity.Brow;
 import com.jk1091.weixin.entity.ReceiveXmlEntity;
+import com.jk1091.weixin.service.FuliService;
 
 public class WechatProcess {
 	/**
@@ -46,7 +47,10 @@ public class WechatProcess {
 			result = new JokeProcess().getJoke(toUserName, fromUserName);
 		}else if(content.indexOf("趣图")!= -1){
 			result = new OddPhotosProcess().getOddPhotos(toUserName, fromUserName);
-		}else{
+		}else if(content.equalsIgnoreCase("美女")){
+			return  new FuliService().fuli(toUserName,fromUserName);
+		}
+		else{
 			result = new TulingProcess().get(fromUserName,toUserName,content);
 		}
 		return result;

@@ -1,7 +1,5 @@
 package com.jk1091.weixin.entity;
 
-import java.util.Date;
-
 public class OddPhotos {
 	private String title;
 	private String thumburl;
@@ -43,7 +41,7 @@ public class OddPhotos {
 				"</item>" + 
 				"</Articles>" + 
 				"</xml>";
-			return String.format(result, toUser,fromUser,new Date().getTime(),title,"",thumburl,url);
+			return String.format(result, toUser,fromUser,System.currentTimeMillis(),title,"",thumburl,url);
 		
 	}
 	
