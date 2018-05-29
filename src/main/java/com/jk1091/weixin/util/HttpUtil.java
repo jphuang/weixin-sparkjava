@@ -1,40 +1,44 @@
 package com.jk1091.weixin.util;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author jphua
+ */
 public class HttpUtil {
+    private static  Logger logger = LoggerFactory.getLogger(HttpUtil.class);
     private  static  CloseableHttpClient httpclient = HttpClients.createDefault();
+    private static  final int  SUCCESS_CODE  = 200;
     public static String get(String url) {
         HttpGet request = new HttpGet(url);
         //解决中文问题。
         request.addHeader("Content-type", "application/json; charset=utf-8");
         request.setHeader("Accept", "application/json");
-        StringBuilder result = new StringBuilder();//响应正文
+        //响应正文
+        String result = "";
         try {
             HttpResponse response = httpclient.execute(request);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                getSB(result, response);
+            if (response.getStatusLine().getStatusCode() == SUCCESS_CODE) {
+                result = getString(response);
             }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result.toString();
+        return result;
     }
 
 
@@ -43,31 +47,31 @@ public class HttpUtil {
         //解决中文问题。
         request.addHeader("Content-type", "application/json; charset=utf-8");
         request.setHeader("Accept", "application/json");
-        List<NameValuePair> nvps = new ArrayList<>();
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
         map.forEach((k,v) ->{
-            nvps.add(new BasicNameValuePair(k, v.toString()));
+            nameValuePairs.add(new BasicNameValuePair(k, v.toString()));
         });
-        System.out.println(nvps);
+        logger.info("pair->{}",nameValuePairs);
         try {
-            request.setEntity(new UrlEncodedFormEntity(nvps));
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+           logger.error("error:{}",e.getMessage(),e);
         }
-        StringBuilder result = new StringBuilder();//响应正文
+        //响应正文
+        String result ="";
         try {
             HttpResponse response = HttpClients.createDefault().execute(request);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                getSB(result, response);
+            if (response.getStatusLine().getStatusCode() == SUCCESS_CODE) {
+                result  =  getString(response);
             }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("error:{}",e.getMessage(),e);
         }
-        return result.toString();
+        return result;
     }
 
-    private static void getSB(StringBuilder result, HttpResponse response) throws IOException {
+    private static String getString(HttpResponse response) throws IOException {
+        StringBuilder result = new StringBuilder();
         InputStream instream = response.getEntity().getContent();
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 instream, "utf-8"));
@@ -75,5 +79,6 @@ public class HttpUtil {
         while ((temp = br.readLine()) != null) {
             result.append(temp + "\n");
         }
+        return result.toString();
     }
 }

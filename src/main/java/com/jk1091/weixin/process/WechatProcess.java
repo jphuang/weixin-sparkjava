@@ -4,6 +4,9 @@ import com.jk1091.weixin.entity.Brow;
 import com.jk1091.weixin.entity.ReceiveXmlEntity;
 import com.jk1091.weixin.service.FuliService;
 
+/**
+ * @author jphua
+ */
 public class WechatProcess {
 	/**
 	 * 解析处理xml、获取智能回复结果
@@ -11,49 +14,47 @@ public class WechatProcess {
 	 * @return  最终的解析结果（xml格式数据）
 	 */
 	public String processWechatMag(String xml){
-		/** 解析xml数据 */
+        /* 解析xml数据 */
 		ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(xml);
 
-		/** 以文本消息为例，调用图灵机器人api接口，获取回复内容 */
-		String result = "";
-		if("text".endsWith(xmlEntity.getMsgType())){
-
-			String content = replace(xmlEntity.getContent());
-
-			String  fromUserName = xmlEntity.getToUserName();
-			String toUserName = xmlEntity.getFromUserName();
-
-			result = handle(content, fromUserName, toUserName);
-		}else if ("voice".endsWith(xmlEntity.getMsgType())){
-
-			String content = replace(xmlEntity.getRecognition());
-
-			String  fromUserName = xmlEntity.getToUserName();
-			String toUserName = xmlEntity.getFromUserName();
-
-			result = handle(content, fromUserName, toUserName);
+        /* 以文本消息为例，调用图灵机器人api接口，获取回复内容 */
+		String text = "text";
+		String voice = "voice";
+		String  fromUserName = xmlEntity.getToUserName();
+		String toUserName = xmlEntity.getFromUserName();
+		String content = "";
+		if(text.endsWith(xmlEntity.getMsgType())){
+			content = replace(xmlEntity.getContent());
 		}
-
-		return result;
+		if(voice.endsWith(xmlEntity.getMsgType())){
+			content = replace(xmlEntity.getRecognition());
+		}
+        return handle(content, fromUserName, toUserName);
 	}
 
 	public  String handle(String content, String fromUserName, String toUserName) {
-		String result;
-		if(content.startsWith("音乐") || content.startsWith("歌曲") || content.startsWith("点歌") ){
-			MusicApiProcess  bma = new MusicApiProcess();
-			content = content.substring(2,content.length());
-			result = bma.handleResult(content, fromUserName, toUserName, bma.getSongInfo(bma.getSongId(content)));
-		}else if(content.indexOf("笑话")!= -1){
-			result = new JokeProcess().getJoke(toUserName, fromUserName);
-		}else if(content.indexOf("趣图")!= -1){
-			result = new OddPhotosProcess().getOddPhotos(toUserName, fromUserName);
-		}else if(content.equalsIgnoreCase("美女")){
-			return  new FuliService().fuli(toUserName,fromUserName);
-		}
-		else{
-			result = new TulingProcess().get(fromUserName,toUserName,content);
-		}
-		return result;
+        String musci = "音乐";
+        String prefix = "歌曲";
+        String musicAction = "点歌";
+        String joke = "笑话";
+        String odd = "趣图";
+        String girl = "美女";
+
+        if(content.startsWith(musci) || content.startsWith(prefix) || content.startsWith(musicAction) ){
+            MusicApiProcess  bma = new MusicApiProcess();
+            content = content.substring(2,content.length());
+            return  bma.handleResult(content, fromUserName, toUserName, bma.getSongInfo(bma.getSongId(content)));
+        }
+        if(content.contains(joke)){
+            return  new JokeProcess().getJoke(toUserName, fromUserName);
+        }
+        if(content.contains(odd)){
+            return  new OddPhotosProcess().getOddPhotos(toUserName, fromUserName);
+        }
+        if(content.equalsIgnoreCase(girl)){
+            return  new FuliService().fuli(toUserName,fromUserName);
+        }
+        return   new TulingProcess().get(fromUserName, toUserName, content);
 	}
 
 	private String replace(String content) {
@@ -61,11 +62,6 @@ public class WechatProcess {
 			content = content.replace(key, Brow.me.get(key));
 		}
 		return content;
-	}
-
-	public static void main(String[] args) {
-		WechatProcess wp = new WechatProcess();
-		System.out.println(wp.handle("笑话", "", ""));
 	}
 
 }
