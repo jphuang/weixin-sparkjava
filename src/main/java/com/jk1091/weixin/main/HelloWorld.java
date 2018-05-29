@@ -2,6 +2,8 @@ package com.jk1091.weixin.main;
 
 import com.jk1091.weixin.controller.FuliController;
 import com.jk1091.weixin.controller.WeixinController;
+import com.jk1091.weixin.dao.BaseDao;
+import com.jk1091.weixin.model.TalkHistory;
 import com.jk1091.weixin.process.WechatProcess;
 import com.jk1091.weixin.service.FuliService;
 import freemarker.cache.ClassTemplateLoader;
@@ -27,12 +29,11 @@ public class HelloWorld {
 
     private static Logger log = LoggerFactory.getLogger(HelloWorld.class);
 
-
-
     public static void main(String[] args) {
         port(8078);
         post("/", WeixinController.index());
         get("/fuli", FuliController.fuli());
+        BaseDao.start();
     }
 
 

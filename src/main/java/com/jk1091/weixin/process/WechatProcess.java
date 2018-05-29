@@ -2,7 +2,10 @@ package com.jk1091.weixin.process;
 
 import com.jk1091.weixin.entity.Brow;
 import com.jk1091.weixin.entity.ReceiveXmlEntity;
+import com.jk1091.weixin.model.TalkHistory;
 import com.jk1091.weixin.service.FuliService;
+
+import java.util.Date;
 
 /**
  * @author jphua
@@ -32,15 +35,15 @@ public class WechatProcess {
         return handle(content, fromUserName, toUserName);
 	}
 
-	public  String handle(String content, String fromUserName, String toUserName) {
-        String musci = "音乐";
+	private  String handle(String content, String fromUserName, String toUserName) {
+        String music = "音乐";
         String prefix = "歌曲";
         String musicAction = "点歌";
         String joke = "笑话";
         String odd = "趣图";
         String girl = "美女";
 
-        if(content.startsWith(musci) || content.startsWith(prefix) || content.startsWith(musicAction) ){
+        if(content.startsWith(music) || content.startsWith(prefix) || content.startsWith(musicAction) ){
             MusicApiProcess  bma = new MusicApiProcess();
             content = content.substring(2,content.length());
             return  bma.handleResult(content, fromUserName, toUserName, bma.getSongInfo(bma.getSongId(content)));
@@ -54,7 +57,9 @@ public class WechatProcess {
         if(content.equalsIgnoreCase(girl)){
             return  new FuliService().fuli(toUserName,fromUserName);
         }
-        return   new TulingProcess().get(fromUserName, toUserName, content);
+		String result = new TulingProcess().get(fromUserName, toUserName, content);
+        new TalkHistory().put("from_user",fromUserName).put("to_user",toUserName).put("content",content).put("result",result).put("create_time",new Date()).save();
+		return result;
 	}
 
 	private String replace(String content) {
