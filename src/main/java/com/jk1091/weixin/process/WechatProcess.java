@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 public class WechatProcess {
 
 
-	public ExecutorService fixedThreadPool = Executors.newFixedThreadPool(30);
 
 	/**
 	 * 解析处理xml、获取智能回复结果
@@ -65,13 +64,6 @@ public class WechatProcess {
         }
         String s = content;
 		String result = new TulingProcess().get(fromUserName, toUserName, content);
-		fixedThreadPool.submit(()-> {
-			try {
-				new TalkHistory().put("from_user", fromUserName).put("to_user", toUserName).put("content", s).put("result", result).put("create_time", new Date()).save();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
 		return result;
 	}
 

@@ -23,8 +23,5 @@ public class BaseDao {
         arp.addMapping("talk_history",TalkHistory.class);
         dp.start();
         arp.start();
-
-        TalkHistory byId = TalkHistory.dao.findById(1);
-        System.out.println(byId);
     }
 }
