@@ -6,11 +6,17 @@ import com.jk1091.weixin.model.TalkHistory;
 import com.jk1091.weixin.service.FuliService;
 
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author jphua
  */
 public class WechatProcess {
+
+
+	public ExecutorService fixedThreadPool = Executors.newFixedThreadPool(30);
+
 	/**
 	 * 解析处理xml、获取智能回复结果
 	 * @param xml 接收到的微信数据
@@ -57,8 +63,15 @@ public class WechatProcess {
         if(content.equalsIgnoreCase(girl)){
             return  new FuliService().fuli(toUserName,fromUserName);
         }
+        String s = content;
 		String result = new TulingProcess().get(fromUserName, toUserName, content);
-        new TalkHistory().put("from_user",fromUserName).put("to_user",toUserName).put("content",content).put("result",result).put("create_time",new Date()).save();
+		fixedThreadPool.submit(()-> {
+			try {
+				new TalkHistory().put("from_user", fromUserName).put("to_user", toUserName).put("content", s).put("result", result).put("create_time", new Date()).save();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		return result;
 	}
 
