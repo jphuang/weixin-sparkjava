@@ -25,15 +25,15 @@ public class TulingProcess {
 		String post = HttpUtil.get(api + "?key=3baaeb7f66af4e1cb62fed91a1a732d1" + "&userid" + toUser + "&info=" + text );
 		JSONObject jsonArray = JSONObject.fromObject(post);
 		logger.info("tuling return {}",jsonArray);
-		String text1 = jsonArray.getString("text");
+		String rersult = jsonArray.getString("text");
 		fixedThreadPool.submit(()-> {
 			try {
-				new TalkHistory().put("from_user", toUser).put("to_user", fromUser).put("content", text1).put("result", result).put("create_time", new Date()).save();
+				new TalkHistory().put("from_user", toUser).put("to_user", fromUser).put("content", text).put("result", rersult).put("create_time", new Date()).save();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
-		return String.format(result, toUser,fromUser,System.currentTimeMillis(), text1);
+		return String.format(result, toUser,fromUser,System.currentTimeMillis(), rersult);
 	}
 
 	public static void main(String[] args) {
