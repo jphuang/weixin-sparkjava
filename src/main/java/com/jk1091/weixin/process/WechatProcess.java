@@ -71,11 +71,11 @@ public class WechatProcess {
 			if(sub.length() >16){
 				sub = sub.substring(0,16);
 			}
-			String sql = "select count(1) from user where user_id = '" + fromUserName + "'";
+			String sql = "select *  from user where user_id = '" + fromUserName + "'";
 			User first = User.dao.findFirst(sql);
-			boolean save = false;
+			boolean save ;
 			if(Objects.nonNull(first)){
-				first.set("name", sub).update();
+				save = first.set("name", sub).update();
 			} else{
 				save = new User().put("user_id", fromUserName).put("name", sub).save();
 			}
