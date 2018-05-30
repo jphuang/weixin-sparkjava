@@ -1,10 +1,6 @@
 package com.jk1091.weixin.message.resp;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
  * 消息基类（普通用户 -> 公众帐号）
@@ -12,11 +8,6 @@ import lombok.experimental.Accessors;
  * @author jphua
  * @date 2018-05-30 16:25
  **/
-@Data
-@Builder
-@Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
 public class BaseMessage {
     /**
      * 接收方帐号（收到的OpenID）
@@ -38,4 +29,55 @@ public class BaseMessage {
      *
      */
     private int FuncFlag;
+
+    public String getToUserName() {
+        return ToUserName;
+    }
+
+    public void setToUserName(String toUserName) {
+        ToUserName = toUserName;
+    }
+
+    public String getFromUserName() {
+        return FromUserName;
+    }
+
+    public void setFromUserName(String fromUserName) {
+        FromUserName = fromUserName;
+    }
+
+    public long getCreateTime() {
+        return CreateTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        CreateTime = createTime;
+    }
+
+    public String getMsgType() {
+        return MsgType;
+    }
+
+    public void setMsgType(String msgType) {
+        MsgType = msgType;
+    }
+
+    public int getFuncFlag() {
+        return FuncFlag;
+    }
+
+    public void setFuncFlag(int funcFlag) {
+        FuncFlag = funcFlag;
+    }
+
+    public BaseMessage(String toUserName, String fromUserName, long createTime, String msgType, int funcFlag) {
+        ToUserName = toUserName;
+        FromUserName = fromUserName;
+        CreateTime = createTime;
+        MsgType = msgType;
+        FuncFlag = funcFlag;
+    }
+
+    public BaseMessage() {
+    }
 }

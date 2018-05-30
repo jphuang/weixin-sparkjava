@@ -1,10 +1,10 @@
 package com.jk1091.weixin.message.resp;
 
+import com.jk1091.weixin.util.MessageUtil;
 import com.jk1091.weixin.utils.XmlUtils;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
  * 请求消息之文本消息
@@ -13,9 +13,6 @@ import lombok.experimental.Accessors;
  * @date 2018-05-30 16:28
  **/
 @Data
-@Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
 public class TextMessage extends BaseMessage {
     /**
      *   消息内容
@@ -27,4 +24,14 @@ public class TextMessage extends BaseMessage {
         return  new XmlUtils<TextMessage>().transferXml(this);
     }
 
+    public TextMessage() {
+    }
+
+    public TextMessage(String toUserName, String fromUserName, String content) {
+        setToUserName(toUserName);
+        setToUserName(fromUserName);
+        setCreateTime(System.currentTimeMillis());
+        this.Content = content;
+        setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
+    }
 }

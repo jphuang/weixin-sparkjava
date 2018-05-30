@@ -82,12 +82,7 @@ public class WechatProcess {
 				content = "系统好像出了点问题,骚后再试！！！";
 			}
 
-			TextMessage textMessage = new TextMessage();
-			textMessage.setContent(content);
-			textMessage.setCreateTime(System.currentTimeMillis());
-			textMessage.setFromUserName(toUserName);
-			textMessage.setToUserName(fromUserName);
-			textMessage.setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
+			TextMessage textMessage = new TextMessage(fromUserName, toUserName, content);
 			return  textMessage.textMessageToXml();
 		}
 
@@ -104,12 +99,7 @@ public class WechatProcess {
 			for (Record record : records) {
 				sb.append(String.format(format, record.get("name"), record.get("num"), record.get("from_user")));
 			}
-			TextMessage textMessage = new TextMessage();
-			textMessage.setContent(sb.toString());
-			textMessage.setCreateTime(System.currentTimeMillis());
-			textMessage.setFromUserName(toUserName);
-			textMessage.setToUserName(fromUserName);
-			textMessage.setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
+			TextMessage textMessage = new TextMessage(fromUserName, toUserName, sb.toString());
 			return  textMessage.textMessageToXml();
 		}
 		String result = new TulingProcess().get(fromUserName, toUserName, content);
