@@ -8,6 +8,7 @@ import com.jk1091.weixin.message.resp.TextMessage;
 import com.jk1091.weixin.model.User;
 import com.jk1091.weixin.service.FuliService;
 
+import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,7 +87,7 @@ public class WechatProcess {
 				content = "系统好像出了点问题,骚后再试！！！";
 			}
 
-			TextMessage textMessage = new TextMessage(fromUserName, toUserName, content);
+			TextMessage textMessage = new TextMessage(toUserName, fromUserName, content);
 			return  textMessage.textMessageToXml();
 		}
 
@@ -103,7 +104,7 @@ public class WechatProcess {
 			for (Record record : records) {
 				sb.append(String.format(format, record.get("name"), record.get("num"), record.get("from_user")));
 			}
-			TextMessage textMessage = new TextMessage(fromUserName, toUserName, sb.toString());
+			TextMessage textMessage = new TextMessage(toUserName, fromUserName, sb.toString());
 			return  textMessage.textMessageToXml();
 		}
 		String result = new TulingProcess().get(fromUserName, toUserName, content);
