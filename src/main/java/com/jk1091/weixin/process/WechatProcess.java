@@ -71,7 +71,7 @@ public class WechatProcess {
             return  new FuliService().fuli(toUserName,fromUserName);
         }
 		if(content.startsWith(iam)){
-			String sub = iam.substring(2, content.length());
+			String sub = content.substring(2, content.length());
 			if(sub.length() >16){
 				sub = sub.substring(0,16);
 			}
