@@ -105,9 +105,9 @@ public class WechatProcess {
 
 			List<Record> records = Db.find(sql);
 			StringBuffer sb = new StringBuffer();
-			String format = "%-3D|%-10s|%-10s";
+			String format = "%-3d|%-10s|%-10s";
 			sb.append("如果你没看到你的名字，你可以发送： 我是xxx 来登记你的呢称xxx \r\n");
-			sb.append(String.format(format,"呢称","聊天数量") + "\r\n");
+			sb.append(String.format(format,0,"呢称","聊天数量") + "\r\n");
 			int i = 1 ;
 			for (Record record : records) {
 				sb.append(String.format(format,i++, record.get("name"), record.get("num"))+ "\r\n");
