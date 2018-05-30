@@ -4,6 +4,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jk1091.weixin.model.TalkHistory;
+import com.jk1091.weixin.model.User;
 
 /**
  * baseDao
@@ -13,7 +14,6 @@ import com.jk1091.weixin.model.TalkHistory;
  **/
 public class BaseDao {
 
-
     public static void start() {
         PropKit.use("config.txt");
         String userName = PropKit.get("userName");
@@ -21,6 +21,7 @@ public class BaseDao {
         DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/test?serverTimezone=GMT&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true", userName, password);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         arp.addMapping("talk_history",TalkHistory.class);
+        arp.addMapping("user",User.class);
         dp.start();
         arp.start();
     }

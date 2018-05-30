@@ -2,6 +2,7 @@ package com.jk1091.weixin.process;
 
 import com.jk1091.weixin.model.TalkHistory;
 import com.jk1091.weixin.util.HttpUtil;
+import com.jk1091.weixin.util.MessageUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import java.util.concurrent.Executors;
 
 public class TulingProcess {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	public ExecutorService fixedThreadPool = Executors.newFixedThreadPool(30);
 	public String  get(String fromUser,String toUser,String text){
 		String api = "http://www.tuling123.com/openapi/api";
 		String result = "<xml>"+
@@ -26,7 +26,7 @@ public class TulingProcess {
 		JSONObject jsonArray = JSONObject.fromObject(post);
 		logger.info("tuling return {}",jsonArray);
 		String rersult = jsonArray.getString("text");
-		fixedThreadPool.submit(()-> {
+        MessageUtil.fixedThreadPool.submit(()-> {
 			try {
 				new TalkHistory().put("from_user", toUser).put("to_user", fromUser).put("content", text).put("result", rersult).put("create_time", new Date()).save();
 			} catch (Exception e) {
