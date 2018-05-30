@@ -92,17 +92,25 @@ public class WechatProcess {
 		}
 
         if(content.equalsIgnoreCase(rank)){
-            String sql = "select hi.*, user.name  from  (\n" +
-					"select from_user,count(1)  num  from talk_history GROUP BY from_user    ORDER BY  num desc limit 10 \n" +
-					") hi LEFT join user  on user.user_id = hi.from_user ";
+            String sql = "SELECT\n" +
+					"\tfrom_user,\n" +
+					"\tcount( 1 ) num \n" +
+					"\t,user.`name`\n" +
+					"FROM\n" +
+					"\ttalk_history hi \n" +
+					"\tLEFT JOIN user ON user.user_id = hi.from_user\n" +
+					"GROUP BY\n" +
+					"\tfrom_user\n" +
+					"\tORDER BY  num  desc limit 10   ";
 
 			List<Record> records = Db.find(sql);
 			StringBuffer sb = new StringBuffer();
-			String format = "%-10s|%-10s";
+			String format = "%-3d|%-10s|%-10s";
 			sb.append("如果你没看到你的名字，你可以发送： 我是xxx 来登记你的呢称xxx \r\n");
 			sb.append(String.format(format,"呢称","聊天数量") + "\r\n");
+			int i = 1 ;
 			for (Record record : records) {
-				sb.append(String.format(format, record.get("name"), record.get("num"))+ "\r\n");
+				sb.append(String.format(format,i++, record.get("name"), record.get("num"))+ "\r\n");
 			}
 			TextMessage textMessage = new TextMessage(toUserName, fromUserName, sb.toString());
 			return  textMessage.textMessageToXml();
