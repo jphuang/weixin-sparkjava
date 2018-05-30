@@ -27,8 +27,4 @@ public class TextMessage extends BaseMessage {
         return  new XmlUtils<TextMessage>().transferXml(this);
     }
 
-    public static void main(String[] args) {
-        TextMessage textMessage = new TextMessage().setContent("content");
-        System.out.println(textMessage.textMessageToXml());
-    }
 }
