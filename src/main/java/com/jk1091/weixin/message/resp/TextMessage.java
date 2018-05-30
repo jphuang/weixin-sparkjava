@@ -29,7 +29,7 @@ public class TextMessage extends BaseMessage {
 
     public TextMessage(String toUserName, String fromUserName, String content) {
         setToUserName(toUserName);
-        setToUserName(fromUserName);
+        setFromUserName(fromUserName);
         setCreateTime(System.currentTimeMillis());
         this.Content = content;
         setMsgType(MessageUtil.REQ_MESSAGE_TYPE_TEXT);
