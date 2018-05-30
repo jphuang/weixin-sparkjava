@@ -82,7 +82,8 @@ public class WechatProcess {
 				content = "系统好像出了点问题,骚后再试！！！";
 			}
 
-			TextMessage textMessage = new TextMessage().setContent(content);
+			TextMessage textMessage = new TextMessage();
+			textMessage.setContent(content);
 			textMessage.setCreateTime(System.currentTimeMillis());
 			textMessage.setFromUserName(toUserName);
 			textMessage.setToUserName(fromUserName);
@@ -103,7 +104,8 @@ public class WechatProcess {
 			for (Record record : records) {
 				sb.append(String.format(format, record.get("name"), record.get("num"), record.get("from_user")));
 			}
-			TextMessage textMessage = new TextMessage().setContent(sb.toString());
+			TextMessage textMessage = new TextMessage();
+			textMessage.setContent(sb.toString());
 			textMessage.setCreateTime(System.currentTimeMillis());
 			textMessage.setFromUserName(toUserName);
 			textMessage.setToUserName(fromUserName);
