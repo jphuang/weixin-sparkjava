@@ -5,15 +5,11 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jk1091.weixin.entity.Brow;
 import com.jk1091.weixin.entity.ReceiveXmlEntity;
 import com.jk1091.weixin.message.resp.TextMessage;
-import com.jk1091.weixin.model.TalkHistory;
 import com.jk1091.weixin.model.User;
 import com.jk1091.weixin.service.FuliService;
-import com.jk1091.weixin.util.MessageUtil;
 
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Objects;
 
 /**
  * @author jphua
@@ -75,7 +71,15 @@ public class WechatProcess {
 			if(sub.length() >16){
 				sub = sub.substring(0,16);
 			}
-			boolean save = new User().put("user_id", fromUserName).put("name", sub).save();
+			String sql = "select count(1) from user where user_id = '" + fromUserName + "'";
+			User first = User.dao.findFirst(sql);
+			boolean save = false;
+			if(Objects.nonNull(first)){
+				first.set("name", sub).update();
+			} else{
+				save = new User().put("user_id", fromUserName).put("name", sub).save();
+			}
+
 			if(save){
 				content = "你已经登记你的呢称为：" + sub;
 			}else{
