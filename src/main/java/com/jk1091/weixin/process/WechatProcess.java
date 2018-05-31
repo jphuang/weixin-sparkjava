@@ -72,13 +72,13 @@ public class WechatProcess {
 			if(sub.length() >16){
 				sub = sub.substring(0,16);
 			}
-			String sql = "select *  from user where user_id = '" + fromUserName + "'";
+			String sql = "select *  from user where user_id = '" + toUserName + "'";
 			User first = User.dao.findFirst(sql);
 			boolean save ;
 			if(Objects.nonNull(first)){
 				save = first.set("name", sub).update();
 			} else{
-				save = new User().put("user_id", fromUserName).put("name", sub).save();
+				save = new User().put("user_id", toUserName).put("name", sub).save();
 			}
 
 			if(save){
