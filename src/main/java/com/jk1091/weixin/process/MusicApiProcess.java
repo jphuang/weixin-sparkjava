@@ -1,13 +1,7 @@
 package com.jk1091.weixin.process;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Date;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -15,6 +9,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
 
 /**
  * @author Administrator
@@ -80,9 +79,11 @@ public class MusicApiProcess {
             return returnFalse(musicName, fromUserName, toUserName);
         }else{
 			JSONObject data = json.getJSONObject("data");
+			logger.info("data:{}", data);
 			String songName = data.getString("audio_name");
         	String songLink = data.getString("play_url");
-        	return formatMusicXml(fromUserName, toUserName, new Date(), songName, " ", songLink  );
+        	String albumName = data.getString("album_name");
+        	return formatMusicXml(fromUserName, toUserName, new Date(), songName, albumName, songLink  );
         }
 
 
