@@ -13,8 +13,15 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * @author Administrator
+ */
 public class MusicApiProcess {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public  String getSongId(String content ) {
         String apiUrl = "http://mobilecdn.kugou.com/api/v3/search/song?format=jsonp&page=1&pagesize=1&showtype=1&keyword=";
@@ -41,26 +48,26 @@ public class MusicApiProcess {
                 }
             }
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
+			logger.error("ClientProtocolException",e);
         } catch (IOException e) {
-            e.printStackTrace();
+			logger.error("IOException",e);
         }
 		return null;
 	}
 	public  JSONObject  getSongInfo(String songId) {
-		String apiUrl = "http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash="+ songId;
-		System.out.println("getSongInfo:" + apiUrl);
-		HttpGet request = new HttpGet(apiUrl);
-		String result = null;
+		String callback = "jQuery191037245986227035965_1572507044787";
+		String url = "http://wwwapi.kugou.com/yy/index.php?r=play/getdata&callback="+callback+"&hash=" +songId +"&album_id=31794106&dfid=3w4QAa1EIBy30XdQvQ3htcYC&mid=044a162f05339f36a342e094535b8be1&platid=4&_=1572507044789";
+		System.out.println("getSongInfo:" + url);
+		HttpGet request = new HttpGet(url);
+		String result;
 		try {
 			HttpResponse response = HttpClients.createDefault().execute(request);
 			if(response.getStatusLine().getStatusCode()==200){
 				result = EntityUtils.toString(response.getEntity());
+				result = result.replace(callback.concat("("),"").replace(");","");
 				JSONObject json = JSONObject.fromObject(result);
 				return json;
 			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,8 +79,9 @@ public class MusicApiProcess {
         if(null == json){
             return returnFalse(musicName, fromUserName, toUserName);
         }else{
-        	String songName = json.getString("fileName");
-        	String songLink = json.getString("url");
+			JSONObject data = json.getJSONObject("data");
+			String songName = data.getString("audio_name");
+        	String songLink = data.getString("play_url");
         	return formatMusicXml(fromUserName, toUserName, new Date(), songName, " ", songLink  );
         }
 
@@ -82,7 +90,7 @@ public class MusicApiProcess {
 
 	public String returnFalse(String musicName, String fromUserName,
 			String toUserName) {
-		return    new FormatXmlProcess().formatXmlText(toUserName, fromUserName, "�Ҳ�������" + musicName);
+		return    new FormatXmlProcess().formatXmlText(toUserName, fromUserName, "没有找到这个音乐" + musicName);
 	}
 
 	public String formatMusicXml(String fromUserName,
@@ -105,6 +113,6 @@ public class MusicApiProcess {
 
 	public static void main(String[] args) {
 		MusicApiProcess  bma = new MusicApiProcess();
-		System.out.println(bma.handleResult("���˼�", "", "", bma.getSongInfo(bma.getSongId("���˼�"))));
+		System.out.println(bma.handleResult("爱", "", "", bma.getSongInfo(bma.getSongId("爱"))));
 	}
 }
