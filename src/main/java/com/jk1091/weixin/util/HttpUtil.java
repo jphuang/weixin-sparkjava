@@ -77,7 +77,7 @@ public class HttpUtil {
                 instream, "utf-8"));
         String temp ;
         while ((temp = br.readLine()) != null) {
-            result.append(temp + "\n");
+            result.append(temp).append("\n");
         }
         return result.toString();
     }

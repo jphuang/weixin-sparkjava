@@ -18,7 +18,7 @@ public class BaseDao {
         PropKit.use("config.txt");
         String userName = PropKit.get("userName");
         String password = PropKit.get("password");
-        DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/test?serverTimezone=GMT&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true", userName, password);
+        DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/test?serverTimezone=GMT&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false", userName, password);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         arp.addMapping("talk_history",TalkHistory.class);
         arp.addMapping("user",User.class);

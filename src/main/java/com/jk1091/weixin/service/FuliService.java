@@ -27,7 +27,7 @@ public class FuliService {
     }
 
     public JSONObject getImage(Integer i){
-        String api  = "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/1/" + i;
+        String api  = "http://gank.io/api/data/福利/1/" + i;
         String post = HttpUtil.get(api);
         JSONObject jsonArray = JSONObject.fromObject(post);
         JSONArray array =  jsonArray.getJSONArray("results");

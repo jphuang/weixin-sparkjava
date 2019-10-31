@@ -32,6 +32,7 @@ public class HelloWorld {
     public static void main(String[] args) {
         port(8078);
         post("/", WeixinController.index());
+        get("/", WeixinController.index());
         get("/fuli", FuliController.fuli());
         BaseDao.start();
     }
