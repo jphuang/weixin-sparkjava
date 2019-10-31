@@ -63,9 +63,10 @@ public class MusicApiProcess {
 			HttpResponse response = HttpClients.createDefault().execute(request);
 			if(response.getStatusLine().getStatusCode()==200){
 				result = EntityUtils.toString(response.getEntity());
+				logger.info("result:{}", result);
 				result = result.replace(callback.concat("("),"").replace(");","");
-				JSONObject json = JSONObject.fromObject(result);
-				return json;
+				logger.info("result:{}", result);
+				return JSONObject.fromObject(result);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
