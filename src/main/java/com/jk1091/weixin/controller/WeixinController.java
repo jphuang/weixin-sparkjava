@@ -26,7 +26,7 @@ public class WeixinController {
             String signature = req.queryParams("signature");
             String timestamp = req.queryParams("timestamp");
             String nonce = req.queryParams("nonce");
-            String echoStr = req.queryParams("echoStr");
+            String echoStr = req.queryParams("echostr");
             String body = req.body();
             log.debug("xml:" + body);
             if (!EncryptUtil.check(token,signature, timestamp, nonce)) {
