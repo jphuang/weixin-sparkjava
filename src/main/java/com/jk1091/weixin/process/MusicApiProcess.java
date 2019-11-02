@@ -1,5 +1,6 @@
 package com.jk1091.weixin.process;
 
+import com.jk1091.weixin.entity.Song;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpResponse;
@@ -53,6 +54,33 @@ public class MusicApiProcess {
         }
 		return null;
 	}
+	public Song getSongIdFrom163(String content ) throws UnsupportedEncodingException {
+        String apiUrl = "https://api.imjad.cn/cloudmusic/?type=search&search_type=1&s=";
+        String param = apiUrl+URLEncoder.encode(content ,"utf-8");
+        HttpGet request = new HttpGet(param);
+        String result;
+        try {
+            HttpResponse response = HttpClients.createDefault().execute(request);
+            if(response.getStatusLine().getStatusCode()==200){
+                result = EntityUtils.toString(response.getEntity());
+                JSONObject json = JSONObject.fromObject(result);
+				JSONObject resultObject = json.getJSONObject("result");
+				JSONArray songs = resultObject.getJSONArray("songs");
+				JSONObject song = (JSONObject) songs.get(0);
+				long songId = song.getLong("id");
+				String songName = song.getString("name");
+				JSONObject al = song.getJSONObject("al");
+				String alName = al.getString("name");
+				String picUrl = al.getString("picUrl");
+				return new Song(songName,songId,alName,picUrl);
+			}
+        } catch (ClientProtocolException e) {
+			logger.error("ClientProtocolException",e);
+        } catch (IOException e) {
+			logger.error("IOException",e);
+        }
+		return null;
+	}
 	public  JSONObject  getSongInfo(String songId) {
 		String callback = "jQuery191037245986227035965_1572507044787";
 		String url = "http://wwwapi.kugou.com/yy/index.php?r=play/getdata&callback="+callback+"&hash=" +songId +"&album_id=31794106&dfid=3w4QAa1EIBy30XdQvQ3htcYC&mid=044a162f05339f36a342e094535b8be1&platid=4&_=1572507044789";
@@ -73,26 +101,39 @@ public class MusicApiProcess {
 		}
 		return null;
 	}
+	private JSONObject  getSongInfoFrom163(Long songId) {
+		String url = "https://api.imjad.cn/cloudmusic/?type=song&id=".concat(songId.toString());
+		logger.info("getSongInfo url:{}" , url);
+		HttpGet request = new HttpGet(url);
+		String result;
+		try {
+			HttpResponse response = HttpClients.createDefault().execute(request);
+			if(response.getStatusLine().getStatusCode()==200){
+				result = EntityUtils.toString(response.getEntity());
+				logger.info("result:{}", result);
+				return JSONObject.fromObject(result);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-	public  String handleResult(String musicName ,String fromUserName,
-			String toUserName, JSONObject json)  {
-        if(null == json){
+	public  String handleResult(String musicName ,String fromUserName, String toUserName) throws UnsupportedEncodingException {
+		Song song = getSongIdFrom163(musicName);
+		if(null == song){
             return returnFalse(musicName, fromUserName, toUserName);
-        }else{
-			JSONObject data = json.getJSONObject("data");
-			logger.info("data:{}", data);
-			String songName = data.getString("audio_name");
-        	String songLink = data.getString("play_url");
-        	String albumName = data.getString("album_name");
-        	return formatMusicXml(fromUserName, toUserName, new Date(), songName, albumName, songLink  );
         }
-
-
+		JSONObject json = getSongInfoFrom163(song.getId());
+		JSONObject data = json.getJSONObject("data");
+		logger.info("data:{}", data);
+		String songLink = data.getString("url");
+		return formatMusicXml(fromUserName, toUserName, new Date(), song.getName(), song.getAlName(), songLink  );
 	}
 
 	public String returnFalse(String musicName, String fromUserName,
 			String toUserName) {
-		return    new FormatXmlProcess().formatXmlText(toUserName, fromUserName, "没有找到这个音乐" + musicName);
+		return    new FormatXmlProcess().formatXmlText(toUserName, fromUserName, "没有找到这个音乐:" + musicName);
 	}
 
 	public String formatMusicXml(String fromUserName,
@@ -115,6 +156,10 @@ public class MusicApiProcess {
 
 	public static void main(String[] args) {
 		MusicApiProcess  bma = new MusicApiProcess();
-		System.out.println(bma.handleResult("爱", "", "", bma.getSongInfo(bma.getSongId("爱"))));
+		try {
+			System.out.println(bma.handleResult("爱", "", ""));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -9,6 +9,7 @@ import com.jk1091.weixin.model.User;
 import com.jk1091.weixin.service.FuliService;
 
 import java.beans.FeatureDescriptor;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,9 +56,13 @@ public class WechatProcess {
 
         if(content.startsWith(music) || content.startsWith(prefix) || content.startsWith(musicAction) ){
             MusicApiProcess  bma = new MusicApiProcess();
-            content = content.substring(2,content.length());
-            return  bma.handleResult(content, fromUserName, toUserName, bma.getSongInfo(bma.getSongId(content)));
-        }
+            content = content.substring(2);
+			try {
+				return  bma.handleResult(content, fromUserName, toUserName);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
         if(content.contains(joke)){
             return  new JokeProcess().getJoke(toUserName, fromUserName);
         }
