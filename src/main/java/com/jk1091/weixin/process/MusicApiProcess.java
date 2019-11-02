@@ -1,6 +1,6 @@
 package com.jk1091.weixin.process;
 
-import com.jk1091.weixin.entity.Song;
+import com.jk1091.weixin.entity.SongBean;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpResponse;
@@ -54,7 +54,7 @@ public class MusicApiProcess {
         }
 		return null;
 	}
-	public Song getSongIdFrom163(String content ) throws UnsupportedEncodingException {
+	public SongBean getSongIdFrom163(String content ) throws UnsupportedEncodingException {
         String apiUrl = "https://api.imjad.cn/cloudmusic/?type=search&search_type=1&s=";
         String param = apiUrl+URLEncoder.encode(content ,"utf-8");
         HttpGet request = new HttpGet(param);
@@ -72,7 +72,7 @@ public class MusicApiProcess {
 				JSONObject al = song.getJSONObject("al");
 				String alName = al.getString("name");
 				String picUrl = al.getString("picUrl");
-				return new Song(songName,songId,alName,picUrl);
+				return new SongBean(songName,songId,alName,picUrl);
 			}
         } catch (ClientProtocolException e) {
 			logger.error("ClientProtocolException",e);
@@ -120,7 +120,7 @@ public class MusicApiProcess {
 	}
 
 	public  String handleResult(String musicName ,String fromUserName, String toUserName) throws UnsupportedEncodingException {
-		Song song = getSongIdFrom163(musicName);
+		SongBean song = getSongIdFrom163(musicName);
 		if(null == song){
             return returnFalse(musicName, fromUserName, toUserName);
         }

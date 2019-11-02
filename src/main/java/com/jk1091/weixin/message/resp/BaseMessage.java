@@ -1,7 +1,5 @@
 package com.jk1091.weixin.message.resp;
 
-import lombok.Data;
-
 /**
  * 消息基类（普通用户 -> 公众帐号）
  *
