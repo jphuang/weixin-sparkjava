@@ -12,11 +12,20 @@ import lombok.NoArgsConstructor;
  * @date 2019/11/2-17:22
  **/
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Song {
     private String name;
     private Long id;
     private String alName;
     private String picUrl;
+
+    public Song() {
+
+    }
+
+    public Song(String name, Long id, String alName, String picUrl) {
+        this.name = name;
+        this.id = id;
+        this.alName = alName;
+        this.picUrl = picUrl;
+    }
 }
