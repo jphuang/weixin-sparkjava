@@ -13,7 +13,7 @@ public class SongBean {
     private String name;
     private Long id;
     private String alName;
-    private String picUrl;
+    private String songmid;
 
     public String getName() {
         return name;
@@ -39,19 +39,19 @@ public class SongBean {
         this.alName = alName;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getSongmid() {
+        return songmid;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setSongmid(String songmid) {
+        this.songmid = songmid;
     }
 
-    public SongBean(String name, Long id, String alName, String picUrl) {
+    public SongBean(String name, Long id, String alName, String songmid) {
         this.name = name;
         this.id = id;
         this.alName = alName;
-        this.picUrl = picUrl;
+        this.songmid = songmid;
     }
 
     public SongBean() {

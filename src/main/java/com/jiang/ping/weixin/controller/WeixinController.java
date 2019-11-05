@@ -40,8 +40,4 @@ public class WeixinController {
             return result;
         };
     }
-
-
-
-
 }
