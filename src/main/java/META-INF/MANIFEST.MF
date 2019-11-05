@@ -9,5 +9,5 @@ Class-Path: httpclient-4.4.1.jar json-lib-2.4-jdk15.jar slf4j-simple-1
  pp-9.0.2.v20130417.jar jetty-servlet-9.0.2.v20130417.jar spark-core-2
  .1.jar jetty-util-9.0.2.v20130417.jar commons-codec-1.9.jar commons-c
  ollections-3.2.1.jar commons-lang3-3.3.2.jar
-Main-Class: com.jk1091.weixin.main.HelloWorld
+Main-Class: com.jiang.ping.weixin.main.HelloWorld
 

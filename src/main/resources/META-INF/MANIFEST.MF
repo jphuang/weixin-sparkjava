@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.jk1091.weixin.main.HelloWorld
+Main-Class: com.jiang.ping.weixin.main.HelloWorld
 

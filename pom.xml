@@ -107,6 +107,7 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -116,7 +117,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.jk1091.weixin.main.HelloWorld</mainClass>
+							<mainClass>com.jiang.ping.weixin.main.HelloWorld</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -133,7 +134,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.jk1091.weixin.main.HelloWorld</mainClass>
+							<mainClass>com.jiang.ping.weixin.main.HelloWorld</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
