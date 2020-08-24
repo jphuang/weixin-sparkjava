@@ -27,7 +27,7 @@ public class HttpUtil {
         HttpGet request = new HttpGet(url);
         //解决中文问题。
         request.addHeader("Content-type", "application/json; charset=utf-8");
-        request.setHeader("Accept", "application/json");
+        //request.setHeader("Accept", "application/json");
         //响应正文
         String result = "";
         try {

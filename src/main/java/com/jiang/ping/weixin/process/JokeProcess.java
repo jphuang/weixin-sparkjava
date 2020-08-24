@@ -9,9 +9,11 @@ import java.util.Map;
 
 import com.jiang.ping.weixin.entity.Joke;
 import com.jiang.ping.weixin.util.HttpUtil;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+@Slf4j
 public class JokeProcess {
 	private static Map<String,List<Joke>> map = new HashMap<String, List<Joke>>();
 	
@@ -19,6 +21,7 @@ public class JokeProcess {
 		String api = "http://api.laifujiangxiaohua.com/open/xiaohua.json";
 		map.clear();
 		String result = HttpUtil.get(api);
+		System.out.println("result:" + result);
 		if(result != null){
 			JSONArray jsonArray = JSONArray.fromObject(result); 
 			List<Joke> jobeList = new ArrayList<>();
