@@ -16,7 +16,7 @@ public class JokeProcess {
 	private static Map<String,List<Joke>> map = new HashMap<String, List<Joke>>();
 	
 	public void init(){
-		String api = "http://api.laifudao.com/open/xiaohua.json";
+		String api = "http://api.laifujiangxiaohua.com/open/xiaohua.json";
 		map.clear();
 		String result = HttpUtil.get(api);
 		if(result != null){
